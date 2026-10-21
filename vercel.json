@@ -1,5 +1,11 @@
 {
   "rewrites": [
     { "source": "/((?!api/).*)", "destination": "/index.html" }
-  ]
+  ],
+  "functions": {
+    "api/list.js": { "includeFiles": "api/**" },
+    "api/imgupsclase.js": { "maxDuration": 60 },
+    "api/amfinder.js": { "maxDuration": 60 },
+    "api/pinterest.js": { "maxDuration": 30 }
+  }
 }
