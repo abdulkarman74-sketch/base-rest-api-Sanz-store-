@@ -15,7 +15,7 @@
     "api/amfinder.js": {
       "maxDuration": 60
     },
-    "api/ytmp3.js": {
+    "api/ytdl.js": {
       "maxDuration": 60
     }
   }
