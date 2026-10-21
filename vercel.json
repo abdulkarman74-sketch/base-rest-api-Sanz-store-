@@ -1,11 +1,22 @@
 {
   "rewrites": [
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
   ],
   "functions": {
-    "api/list.js": { "includeFiles": "api/**" },
-    "api/imgupsclase.js": { "maxDuration": 60 },
-    "api/amfinder.js": { "maxDuration": 60 },
-    "api/ytdl.js": { "maxDuration": 60 }
+    "api/list.js": {
+      "includeFiles": "api/**"
+    },
+    "api/imgupsclase.js": {
+      "maxDuration": 60
+    },
+    "api/amfinder.js": {
+      "maxDuration": 60
+    },
+    "api/ytmp3.js": {
+      "maxDuration": 60
+    }
   }
 }

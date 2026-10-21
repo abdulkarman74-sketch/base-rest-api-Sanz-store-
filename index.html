@@ -64,6 +64,32 @@ img{max-width:100%}
 .badge{display:inline-block;font:600 11px/1.4 'Sora',sans-serif;padding:5px 11px;border-radius:999px;color:var(--accent);background:var(--bg);
   box-shadow:inset 2px 2px 5px var(--lo),inset -2px -2px 5px var(--hi)}
 .badge.off{color:var(--bad)}
+.badge.ok{color:var(--ok)}
+.ah{padding-top:28px}
+.ah-badge{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:var(--bad);color:#fff;font:700 12px/1 'Sora',sans-serif;letter-spacing:.08em;box-shadow:5px 5px 12px var(--lo),-5px -5px 12px var(--hi)}
+.ah-badge i{width:10px;height:10px;border-radius:50%;background:#fff}
+.ah h1{margin:22px 0 14px;font-size:clamp(30px,9vw,52px);letter-spacing:-.03em}
+.ah-name{display:inline-block;padding:10px 22px;border-radius:22px;font:800 clamp(24px,7vw,40px)/1.2 'Sora',sans-serif;color:var(--accent);margin-bottom:18px}
+.ah-cta{margin:22px 0 28px}
+.ah-win{overflow:hidden;padding-bottom:6px}
+.ah-wh{display:flex;align-items:center;gap:8px;padding:16px 18px}
+.ah-wh .d{width:14px;height:14px;border-radius:50%}
+.ah-wh .d.r{background:#ff6b6b}.ah-wh .d.y{background:#ffc94d}.ah-wh .d.g{background:#3ddc97}
+.ah-fn{flex:1;margin-left:8px;font:500 13px/1.3 ui-monospace,Menlo,Consolas,monospace;color:var(--muted)}
+.ah-win .dx-tabs{padding:0 18px 10px}
+.ah-win .dx-code{margin:0 14px;padding-top:16px;max-height:260px}
+.ah-wf{display:flex;justify-content:space-between;align-items:center;padding:14px 18px 10px;font:600 12px/1 ui-monospace,Menlo,Consolas,monospace;color:var(--muted)}
+.ah-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:40px;scroll-margin-top:90px}
+.ast{padding:20px 18px;display:grid;gap:6px;align-content:start}
+.ast-v{font:800 clamp(22px,6.2vw,34px)/1.15 'Sora',sans-serif;overflow-wrap:anywhere}
+.ast-l{font:700 12.5px/1.3 'Sora',sans-serif;letter-spacing:.06em}
+.ast small{color:var(--muted);font-size:12.5px;line-height:1.45}
+.c1{color:var(--ok)}.c2{color:var(--accent)}.c3{color:var(--bad)}.c4{color:#D9822B}
+#dx-explore{scroll-margin-top:90px}
+.dx-cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.dx-cat{display:flex;align-items:center;gap:14px;padding:16px 18px;border:0;cursor:pointer;color:var(--ink);text-align:left;font:inherit;background:var(--bg)}
+.dx-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.dx-bar h2{margin:0}
 
 /* ---- header ---- */
 .top{position:sticky;top:0;z-index:20;background:var(--bg);border-radius:0 0 26px 26px;box-shadow:0 8px 18px var(--r),0 -2px 0 var(--bg)}
@@ -407,7 +433,7 @@ html{scroll-padding-top:88px;scrollbar-width:thin;scrollbar-color:var(--lo) tran
 .hd .info{font-size:12.5px;color:var(--muted);margin:0}
 .hd progress{width:100%;height:8px;accent-color:var(--accent)}
 
-/* ---- Docs API ---- */
+/* ---- API Docs ---- */
 .dx{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;margin-top:8px}
 .dx-card{overflow:hidden}
 .dx-head{display:flex;align-items:center;gap:14px;width:100%;padding:16px 18px;cursor:pointer;border:0;background:none;color:var(--ink);text-align:left;font:inherit;border-radius:24px}
@@ -925,7 +951,7 @@ const EXPL = [
   { t:"Reaction Channel: Integrasi API untuk Bot", b:[
     {p:"Tersedia dokumentasi API bagi pengguna yang ingin menghubungkan layanan Reaction Channel WhatsApp ke bot mereka sendiri."},
     {p:"Melalui dokumentasi API, developer dapat mempelajari cara melakukan integrasi, mengirim permintaan ke layanan, serta menggunakan fitur yang didukung oleh API."},
-    {p:"Akses dokumentasi API: tersedia melalui halaman Docs API pada website."},
+    {p:"Akses dokumentasi API: tersedia melalui halaman API Docs pada website."},
     {a:"https://sanzstore.chanel1.cloud", l:"Buka Website"}]},
   { t:"Reaction Channel: Catatan", b:[
     {h:"Yang perlu diperhatikan", li:["Batas gratis berlaku 2 kali per hari.","Akses Premium mengikuti ketentuan paket yang berlaku.","Integrasi API memerlukan pemahaman dasar mengenai penggunaan API dan konfigurasi bot.","Jumlah reaksi aktual bergantung pada kemampuan layanan dan hasil proses."]}]}
@@ -1261,18 +1287,19 @@ function vExplain(){
 const API_BASE_DEMO = "https://domain-lu.vercel.app";          // dipakai hanya kalau halaman dibuka dari file (bukan http)
 const apiBase = () => /^https?:$/.test(location.protocol) ? location.origin : API_BASE_DEMO;
 const DEMO_APIS = [                                             // cadangan kalau /api/list tidak bisa dibuka (mis. preview lokal)
-  { name:"hdfoto", title:"Upscale Foto", desc:"Perbesar foto jadi HD dengan AI. Foto diproses lewat layanan pihak ketiga.", method:"POST", input:"file", output:"image", resize:1000, order:1,
+  { name:"hdfoto", category:"tools", title:"Upscale Foto", desc:"Perbesar foto jadi HD dengan AI. Foto diproses lewat layanan pihak ketiga.", method:"POST", input:"file", output:"image", resize:1000, order:1,
     params:[{ name:"scale", label:"Perbesar", options:["2","4"], example:"4" }] },
-  { name:"tiktok", title:"TikTok Downloader", desc:"Ambil video TikTok tanpa watermark dari link.", method:"GET", input:"none", output:"json", order:2,
+  { name:"tiktok", category:"downloader", title:"TikTok Downloader", desc:"Ambil video TikTok tanpa watermark dari link.", method:"GET", input:"none", output:"json", order:2,
     params:[{ name:"url", label:"Link TikTok", example:"https://vt.tiktok.com/xxxx" }] },
-  { name:"pinsearch", title:"Pinterest Image Search", desc:"Cari gambar Pinterest dan kirim data foto langsung sebagai respons, bukan URL.", method:"GET", input:"none", output:"image", order:3,
+  { name:"pinsearch", category:"search", title:"Pinterest Image Search", desc:"Cari gambar Pinterest dan kirim data foto langsung sebagai respons, bukan URL.", method:"GET", input:"none", output:"image", order:3,
     params:[{ name:"q", label:"Kata kunci pencarian", example:"anime" }, { name:"index", label:"Nomor gambar (mulai 0)", example:"0" }, { name:"limit", label:"Batas hasil pencarian (1-50)", example:"20" }] }
 ];
 const LANGS = [["curl","cURL"],["js","JavaScript"],["node","Node.js"],["py","Python"],["php","PHP"],["wa","Bot WA"],["tg","Bot Telegram"]];
 const DX = { list:null, st:{}, tok:0 };
 
 function dxNorm(a){
-  const m = Object.assign({ title:a.name, desc:"", method:"GET", input:"none", output:"json", params:[], order:99 }, a);
+  const m = Object.assign({ title:a.name, desc:"", method:"GET", input:"none", output:"json", params:[], order:99, category:"lainnya" }, a);
+  m.category = String(m.category||"lainnya").trim().toLowerCase() || "lainnya";
   m.method = String(m.method).toUpperCase();
   m.params = (Array.isArray(m.params) ? m.params : []).map(p => Object.assign({ label:p.name, example:"" }, p));
   return m;
@@ -1343,8 +1370,31 @@ function dxCode(m){
 
 /* ---------- tampilan ---------- */
 function vTools(){
-  return `<div class="phead"><div><h2>Docs API</h2><p>Kumpulan API publik, gratis, tanpa API key. Buka kartu untuk mencoba langsung dan menyalin contoh kode.</p></div></div>
-  <div class="dx" id="dx"><div class="state" id="dx-load" role="status"><b>Memuat daftar API...</b>Mohon tunggu sebentar.</div></div>`;
+  return `<div id="ah-root">
+  <section class="ah">
+    <span class="ah-badge"><i></i>FREE REST API PLATFORM</span>
+    <h1>WELCOME TO<br>FREE REST API</h1>
+    <div class="ah-name panel">SANZ STORE</div>
+    <p>Kumpulan API publik untuk downloader, tools foto, pencarian, dan lainnya dalam satu portal. Tanpa API key, gratis, langsung pakai.</p>
+    <div class="row ah-cta">
+      <button class="btn" type="button" data-explore>Explore API <svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <button class="btn alt" type="button" data-gostats>System Statistics</button>
+    </div>
+    <div class="panel ah-win" id="ah-win" hidden>
+      <div class="ah-wh"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="ah-fn">&gt;_ sanz.js</span><span class="badge ok">200 OK</span></div>
+      <div class="dx-tabs" role="group" aria-label="Pilih bahasa"><button type="button" data-wl="js" aria-pressed="true">JS Fetch</button><button type="button" data-wl="php" aria-pressed="false">PHP</button></div>
+      <pre class="dx-code" tabindex="0"><code id="ah-code"></code></pre>
+      <div class="ah-wf"><span id="ah-kind">FETCH</span><button class="btn alt sm" type="button" data-wcopy>Salin</button></div>
+    </div>
+  </section>
+  <section class="ah-stats" id="dx-stats" aria-live="polite">
+    <div class="panel ast"><b class="ast-v c1" id="st-total">0</b><span class="ast-l">TOTAL REQUESTS</span><small id="st-sub">Hari ini 0 &middot; Bulan ini 0</small></div>
+    <div class="panel ast"><b class="ast-v c2" id="st-up">&ndash;</b><span class="ast-l">SERVER UPTIME</span><small>Lama server berjalan, terus berjalan</small></div>
+    <div class="panel ast"><b class="ast-v c3" id="st-dev">&ndash;</b><span class="ast-l">YOUR DEVICE</span><small id="st-dev2">Perangkat yang sedang kamu pakai</small></div>
+    <div class="panel ast"><b class="ast-v c4" id="st-ep">0</b><span class="ast-l">LIVE ENDPOINTS</span><small>Endpoint yang tersedia saat ini</small></div>
+  </section>
+  <section class="sec" id="dx-explore" hidden><div class="dx" id="dx"></div></section>
+  </div>`;
 }
 function dxIcon(m){ return ico(m.icon && LI[m.icon] ? m.icon : (m.input==="file" ? "image" : "bolt"), 22); }
 
@@ -1481,17 +1531,82 @@ async function dxCopy(text){
     try{ document.execCommand("copy"); toast("Disalin!"); }catch(_){ toast("Gagal menyalin. Salin manual."); } t.remove(); }
 }
 
+/* ---------- kategori, uptime, perangkat ---------- */
+const CAT_ICO = { tools:"bolt", downloader:"send", search:"book", lainnya:"chest" };
+const catLabel = c => c.charAt(0).toUpperCase() + c.slice(1);
+function dxExplore(){
+  const root = $("#dx"); if(!root) return;
+  if(!DX.list || !DX.list.length){ root.innerHTML = `<div class="state"><b>Belum ada API</b>Tambahkan file baru di folder api/ pada repo.</div>`; return; }
+  if(!DX.cat){
+    const g = {}; DX.list.forEach(m => (g[m.category] = g[m.category] || []).push(m));
+    const keys = Object.keys(g).sort((a,b) => (a==="lainnya") - (b==="lainnya") || a.localeCompare(b));
+    root.innerHTML = `<h2>Pilih kategori</h2><div class="dx-cats">` + keys.map(c => `<button class="panel dx-cat" type="button" data-cat="${esc(c)}"><span class="dx-ico">${ico(CAT_ICO[c] || "bolt", 22)}</span><span class="dx-t"><b>${esc(catLabel(c))}</b><small>${g[c].length} endpoint</small></span><svg class="dx-chev ico" style="transform:rotate(-90deg)" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>`).join("") + `</div>`;
+  }else{
+    root.innerHTML = `<div class="dx-bar"><button class="btn alt sm" type="button" data-back>&larr; Kategori</button><h2>${esc(catLabel(DX.cat))}</h2></div>` + DX.list.filter(m => m.category===DX.cat).map(dxCard).join("");
+  }
+}
+function dxUptime(ms){
+  let t = Math.max(0, Math.floor(ms/1000));
+  const d = Math.floor(t/86400), h = Math.floor(t%86400/3600), m = Math.floor(t%3600/60), s = t%60;
+  return (d ? d + "h " : "") + (d || h ? h + "j " : "") + m + "m " + s + "d";
+}
+function dxDevice(){
+  const ua = navigator.userAgent || "", mob = /Mobi/i.test(ua);
+  const br = /Edg\//.test(ua) ? "Edge" : /OPR\/|Opera/.test(ua) ? "Opera" : /Firefox/.test(ua) ? "Firefox" : /Chrome|CriOS/.test(ua) ? "Chrome" : /Safari/.test(ua) ? "Safari" : "Browser";
+  let os, type;
+  if(/iPad/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)){ os = "iOS"; type = "Tablet"; }
+  else if(/iPhone|iPod/.test(ua)){ os = "iOS"; type = "Ponsel"; }
+  else if(/Android/.test(ua)){ os = "Android"; type = mob ? "Ponsel" : "Tablet"; }
+  else if(/CrOS/.test(ua)){ os = "ChromeOS"; type = "Laptop"; }
+  else if(/Windows/.test(ua)){ os = "Windows"; type = "Laptop / PC"; }
+  else if(/Mac OS X|Macintosh/.test(ua)){ os = "macOS"; type = "Laptop / PC"; }
+  else if(/Linux|X11/.test(ua)){ os = "Linux"; type = "Laptop / PC"; }
+  else { os = "Perangkat lain"; type = mob ? "Ponsel" : "Laptop / PC"; }
+  return [os, type + " \u00b7 " + br];
+}
+
 function initTools(){
   const root = $("#dx"); if(!root) return;
   const tok = ++DX.tok;
+  clearInterval(DX.t1); clearInterval(DX.t2); DX.cat = null;
   const draw = list => {
     if(tok!==DX.tok) return;
     DX.list = list.map(dxNorm).sort((a,b) => (a.order-b.order) || a.name.localeCompare(b.name));
     DX.list.forEach(m => { if(!DX.st[m.name]) DX.st[m.name] = { lang:"curl", vals:Object.fromEntries(m.params.map(p => [p.name, p.options ? dxEx(p) : ""])), file:null, origUrl:null, blob:null, busy:false, token:0 }; });
-    root.innerHTML = DX.list.length ? DX.list.map(dxCard).join("") : `<div class="state"><b>Belum ada API</b>Tambahkan file baru di folder api/ pada repo.</div>`;
-    const first = root.querySelector(".dx-card"); if(first && DX.list.length===1) openCard(first);
+    $("#st-ep").textContent = DX.list.length.toLocaleString("id-ID");
+    const ex = DX.list.find(m => m.input!=="file" && m.method==="GET") || DX.list[0];
+    if(ex){ DX.hero = dxCode(ex); DX.wl = "js"; $("#ah-code").textContent = DX.hero.js; $("#ah-win").hidden = false; }
+    dxExplore();
   };
+  const [os, sub] = dxDevice(); $("#st-dev").textContent = os; $("#st-dev2").textContent = sub;
   fetch("/api/list").then(r => { if(!r.ok) throw 0; return r.json(); }).then(j => { if(!Array.isArray(j)) throw 0; draw(j); }).catch(() => draw(DEMO_APIS));
+  let off = 0, since = null;
+  const fmt = n => Number(n||0).toLocaleString("id-ID");
+  const pull = () => { if(document.hidden) return; fetch("/api/list?stats=1", { cache:"no-store" }).then(r => { if(!r.ok) throw 0; return r.json(); }).then(st => {
+    if(tok!==DX.tok || !$("#st-total")) return;
+    $("#st-total").textContent = fmt(st.total);
+    $("#st-sub").textContent = "Hari ini " + fmt(st.today) + " \u00b7 Bulan ini " + fmt(st.month);
+    off = st.now ? new Date(st.now).getTime() - Date.now() : 0;
+    since = st.since ? new Date(st.since).getTime() : null;
+  }).catch(() => {}); };
+  const tick = () => {
+    const el = $("#st-up");
+    if(tok!==DX.tok || !el){ clearInterval(DX.t1); clearInterval(DX.t2); return; }
+    el.textContent = since ? dxUptime(Date.now() + off - since) : "\u2013";
+  };
+  pull(); DX.t1 = setInterval(pull, 5000); DX.t2 = setInterval(tick, 1000);
+
+  const hero = $("#ah-root");
+  hero.addEventListener("click", e => {
+    if(e.target.closest("[data-explore]")){ const x = $("#dx-explore"); x.hidden = false; x.scrollIntoView({ behavior:"smooth", block:"start" }); return; }
+    if(e.target.closest("[data-gostats]")){ $("#dx-stats").scrollIntoView({ behavior:"smooth", block:"start" }); return; }
+    const wl = e.target.closest("[data-wl]");
+    if(wl && DX.hero){ DX.wl = wl.dataset.wl; $("#ah-code").textContent = DX.hero[DX.wl]; $("#ah-kind").textContent = DX.wl==="js" ? "FETCH" : "CURL";
+      hero.querySelectorAll("[data-wl]").forEach(b => b.setAttribute("aria-pressed", String(b===wl))); return; }
+    if(e.target.closest("[data-wcopy]")) return dxCopy($("#ah-code").textContent);
+    const cat = e.target.closest("[data-cat]"); if(cat){ DX.cat = cat.dataset.cat; dxExplore(); $("#dx-explore").scrollIntoView({ behavior:"smooth", block:"start" }); return; }
+    if(e.target.closest("[data-back]")){ DX.cat = null; dxExplore(); }
+  });
 
   const find = card => DX.list.find(x => x.name===card.dataset.name);
   function openCard(card){
@@ -1533,8 +1648,8 @@ function initTools(){
 }
 
 /* =====================  ROUTER  ===================== */
-const NAV = [["beranda","Beranda","house"],["produk","Produk","chest"],["rating","Rating","star"],["cs","CS","chat"],["tools","Docs API","bolt"],["penjelasan","Info","book"]];
-const TITLES = { beranda:"Beranda", produk:"Produk", rating:"Rating", cs:"CS", penjelasan:"Penjelasan", tools:"Docs API" };
+const NAV = [["beranda","Beranda","house"],["produk","Produk","chest"],["rating","Rating","star"],["cs","CS","chat"],["tools","API Docs","bolt"],["penjelasan","Info","book"]];
+const TITLES = { beranda:"Beranda", produk:"Produk", rating:"Rating", cs:"CS", penjelasan:"Penjelasan", tools:"API Docs" };
 function parse(){
   const h = location.hash.replace(/^#\/?/,"");
   const parts = h.split("/"); let page = parts.shift() || "beranda";
