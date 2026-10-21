@@ -107,7 +107,7 @@ async function handler(req, res) {
 // Info untuk halaman Docs API (dibaca otomatis oleh /api/list)
 handler.meta = {
   title: "Upscale Foto",
-  desc: "Perbesar foto jadi HD dengan AI (iLoveIMG AI Upscaler). Foto diproses lewat layanan pihak ketiga.",
+  desc: "peningkat kualitas foto",
   method: "POST",
   input: "file",
   output: "image",
