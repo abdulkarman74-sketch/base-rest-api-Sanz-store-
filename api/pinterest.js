@@ -1,4 +1,4 @@
-// GET /api/pinsearch?q=anime&index=0&limit=20
+// GET /api/pinsearch?q=anime
 // Mengirim SATU gambar Pinterest langsung sebagai body respons (bukan URL/JSON).
 
 const COOKIE_INTERVAL = 5 * 60 * 1000;
@@ -145,7 +145,7 @@ async function handler(req, res) {
     return res.status(400).json({
       status: false,
       message: "Parameter q wajib diisi.",
-      example: "/api/pinsearch?q=anime&index=0&limit=20"
+      example: "/api/pinsearch?q=anime"
     });
   }
   if (query.length > 200) {
@@ -202,11 +202,8 @@ handler.meta = {
   output: "image",
   order: 3,
   params: [
-    { name: "q", label: "Kata kunci pencarian", example: "anime" },
-    { name: "index", label: "Nomor gambar (mulai 0)", example: "0" },
-    { name: "limit", label: "Batas hasil pencarian (1-50)", example: "20" }
+    { name: "q", label: "Kata kunci pencarian", example: "anime" }
   ]
 };
 
 module.exports = handler;
-                                 
