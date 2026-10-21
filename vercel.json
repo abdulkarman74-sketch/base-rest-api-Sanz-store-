@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ],
+  "functions": {
+    "api/list.js": { "includeFiles": "api/**" },
+    "api/hdfoto.js": { "maxDuration": 60 }
+  }
+}
