@@ -5,6 +5,7 @@
 //   - link  -> https://api.wilz.web.id/tools/amfinder?url=<link>
 //   - judul -> https://amfinder.web.id/api/search?mode=pick (SSE, event "candidates")
 
+const CREATOR = "Sanz Snixy";
 const HOST = "https://amfinder.web.id";
 const WILZ_API = "https://api.wilz.web.id/tools/amfinder";
 const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36";
@@ -148,7 +149,13 @@ async function handler(req, res) {
     if (link) {
       const result = await findPreset(link);
       res.setHeader("Cache-Control", "public, s-maxage=300");
-      return res.status(200).json({ status: true, mode: "preset", url: link, result });
+      return res.status(200).json({
+        status: true,
+        creator: CREATOR,
+        mode: "preset",
+        url: link,
+        result
+      });
     }
 
     if (ANY_URL_RE.test(input)) {
@@ -160,6 +167,7 @@ async function handler(req, res) {
     res.setHeader("Cache-Control", "public, s-maxage=300");
     return res.status(200).json({
       status: true,
+      creator: CREATOR,
       mode: "search",
       query: input,
       items: items.slice(0, 8),
