@@ -1264,7 +1264,9 @@ const DEMO_APIS = [                                             // cadangan kala
   { name:"hdfoto", title:"Upscale Foto", desc:"Perbesar foto jadi HD dengan AI. Foto diproses lewat layanan pihak ketiga.", method:"POST", input:"file", output:"image", resize:1000, order:1,
     params:[{ name:"scale", label:"Perbesar", options:["2","4"], example:"4" }] },
   { name:"tiktok", title:"TikTok Downloader", desc:"Ambil video TikTok tanpa watermark dari link.", method:"GET", input:"none", output:"json", order:2,
-    params:[{ name:"url", label:"Link TikTok", example:"https://vt.tiktok.com/xxxx" }] }
+    params:[{ name:"url", label:"Link TikTok", example:"https://vt.tiktok.com/xxxx" }] },
+  { name:"pinsearch", title:"Pinterest Image Search", desc:"Cari gambar Pinterest dan kirim data foto langsung sebagai respons, bukan URL.", method:"GET", input:"none", output:"image", order:3,
+    params:[{ name:"q", label:"Kata kunci pencarian", example:"anime" }, { name:"index", label:"Nomor gambar (mulai 0)", example:"0" }, { name:"limit", label:"Batas hasil pencarian (1-50)", example:"20" }] }
 ];
 const LANGS = [["curl","cURL"],["js","JavaScript"],["node","Node.js"],["py","Python"],["php","PHP"],["wa","Bot WA"],["tg","Bot Telegram"]];
 const DX = { list:null, st:{}, tok:0 };
