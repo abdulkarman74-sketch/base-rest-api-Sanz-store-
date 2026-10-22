@@ -1,8 +1,9 @@
 const { track } = require("./_track");
 // GET /api/gpt4o?text=PERTANYAAN
-// Opsional: &model=gpt-4o|gpt-4o-mini (default gpt-4o) dan &system=INSTRUKSI
+// Diteruskan ke api.nexadev.my.id/ai/gpt4 (GET), respons dibungkus ulang dengan author Sanz Store.
 
-const ENDPOINT = "https://us-central1-ai-chat-bot-bf47e.cloudfunctions.net/chat_function_android";
+const UPSTREAM = "https://api.nexadev.my.id/ai/gpt4";
+const AUTHOR = "Sanz Store";
 
 async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -11,43 +12,40 @@ async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "GET") {
     res.setHeader("Allow", "GET, OPTIONS");
-    return res.status(405).json({ status: false, message: "Gunakan method GET." });
+    return res.status(405).json({ author: AUTHOR, status: false, message: "Gunakan method GET." });
   }
 
-  const text = typeof req.query.text === "string" ? req.query.text.trim() : "";
+  const q = req.query.text || req.query.q;
+  const text = typeof q === "string" ? q.trim() : "";
   if (!text) {
     return res.status(400).json({
+      author: AUTHOR,
       status: false,
       message: "Parameter text wajib diisi.",
-      example: "/api/gpt4o?text=halo"
+      example: "/api/gpt4o?text=apa itu php"
     });
   }
-  if (text.length > 2000) return res.status(400).json({ status: false, message: "Parameter text terlalu panjang (maks 2000 karakter)." });
-
-  const system = typeof req.query.system === "string" ? req.query.system.trim().slice(0, 1000) : "";
-  const model = req.query.model === "gpt-4o-mini" ? "gpt-4o-mini" : "gpt-4o";
-
-  const messages = [];
-  if (system) messages.push({ role: "system", content: system });
-  messages.push({ role: "user", content: text });
+  if (text.length > 2000) {
+    return res.status(400).json({ author: AUTHOR, status: false, message: "Parameter text terlalu panjang (maks 2000 karakter)." });
+  }
 
   try {
-    const r = await fetch(ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ data: { model, messages, timeZone: "Asia/Jakarta", countryCode: "ID" } }),
+    const r = await fetch(UPSTREAM + "?q=" + encodeURIComponent(text), {
+      headers: { accept: "application/json" },
       signal: AbortSignal.timeout(30000),
     });
     if (!r.ok) throw new Error("Server AI membalas HTTP " + r.status);
     const j = await r.json();
-    const msg = j.result && j.result.choices && j.result.choices[0] && j.result.choices[0].message;
-    if (!msg) throw new Error((j.error && j.error.message) || "Respons server AI tidak valid");
+    const message = j && j.data && j.data.message;
+    if (!j || j.status === false || typeof message !== "string") {
+      throw new Error("Respons server AI tidak valid");
+    }
 
     res.setHeader("Cache-Control", "no-store");
-    return res.status(200).json({ status: true, model, text: msg.content || "" });
+    return res.status(200).json({ author: AUTHOR, status: true, data: { message } });
   } catch (e) {
-    console.error("[gpt4o]", e && e.message || e);
-    return res.status(502).json({ status: false, message: (e && e.message) || "Gagal memproses permintaan AI." });
+    console.error("[gpt4o]", (e && e.message) || e);
+    return res.status(502).json({ author: AUTHOR, status: false, message: (e && e.message) || "Gagal memproses permintaan AI." });
   }
 }
 
@@ -61,7 +59,7 @@ handler.meta = {
   output: "json",
   order: 7,
   params: [
-    { name: "text", label: "Pertanyaan", example: "halo" }
+    { name: "text", label: "Pertanyaan", example: "cara memakan Uyah" }
   ]
 };
 
