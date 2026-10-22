@@ -20,6 +20,9 @@
     },
     "api/capcut.js": {
       "maxDuration": 60
+    },
+    "api/gpt4o.js": {
+      "maxDuration": 60
     }
   }
 }
