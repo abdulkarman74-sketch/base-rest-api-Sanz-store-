@@ -3,6 +3,7 @@
 // Key upstream dipakai di server, user API ini tidak perlu key.
 // Disarankan simpan key di Vercel -> Settings -> Environment Variables dengan nama IKYY_APIKEY
 // (kalau tidak diisi, dipakai key bawaan "kyzz").
+const { track } = require("./_track");
 const UPSTREAM = "https://api.ikyyxd.my.id/random/ppcouple";
 
 // kumpulkan semua link gambar (jpg/jpeg/png/webp) dari bentuk respons apa pun
