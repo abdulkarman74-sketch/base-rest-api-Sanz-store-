@@ -85,6 +85,39 @@ img{max-width:100%}
 .ast-l{font:700 12.5px/1.3 'Sora',sans-serif;letter-spacing:.06em}
 .ast small{color:var(--muted);font-size:12.5px;line-height:1.45}
 .c1{color:var(--ok)}.c2{color:var(--accent)}.c3{color:var(--bad)}.c4{color:#D9822B}
+/* ---- System Statistics ---- */
+.sx{display:grid;gap:16px}
+.sx-h{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.sx-title{margin:0;font:800 clamp(22px,6vw,30px)/1.2 'Sora',sans-serif}
+.sx-sub{margin:0;color:var(--muted);font-size:13.5px;line-height:1.55}
+.sx-live{display:inline-flex;align-items:center;gap:8px;font:700 12px 'Sora',sans-serif;letter-spacing:.08em;color:var(--ok)}
+.sx-live i{width:9px;height:9px;border-radius:50%;background:var(--ok);box-shadow:0 0 12px var(--ok);animation:sxp 1.6s infinite}
+.sx-live i.off{background:var(--bad);box-shadow:0 0 12px var(--bad);animation:none}
+@keyframes sxp{0%{box-shadow:0 0 0 0 rgba(31,180,91,.55),0 0 12px var(--ok)}100%{box-shadow:0 0 0 12px rgba(31,180,91,0),0 0 12px var(--ok)}}
+.sx-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.sx-card{padding:18px;display:grid;gap:10px;align-content:start}
+.sx-wide{grid-column:1/-1}
+.sx-t{font:700 12.5px/1.3 'Sora',sans-serif;letter-spacing:.06em;color:var(--muted)}
+.sx-v{font:800 clamp(22px,6.2vw,32px)/1.15 'Sora',sans-serif;overflow-wrap:anywhere}
+.sx-v.g{color:var(--ok)}.sx-v.a{color:var(--accent)}.sx-v.o{color:#D9822B}.sx-v.c{color:#14C8DC}
+.sx-v{text-shadow:0 0 22px color-mix(in srgb,currentColor 45%,transparent)}
+.sx-card small{color:var(--muted);font-size:12.5px;line-height:1.45}
+.sx-big{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.sx-bar{height:12px;border-radius:99px;background:var(--bg);box-shadow:inset 3px 3px 6px var(--lo),inset -3px -3px 6px var(--hi);overflow:hidden}
+.sx-bar>b{display:block;height:100%;width:2%;border-radius:99px;background:linear-gradient(90deg,var(--accent),#14C8DC);box-shadow:0 0 14px rgba(84,104,232,.7);transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.sx-bar.warn>b{background:linear-gradient(90deg,#D9822B,#F2B84B);box-shadow:0 0 14px rgba(217,130,43,.65)}
+.sx-bar.crit>b{background:linear-gradient(90deg,#D6453D,#FF7A6B);box-shadow:0 0 14px rgba(214,69,61,.65)}
+.sx-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font:600 13.5px/1.45 'Sora',sans-serif}
+.sx-row>span{color:var(--muted)}
+.sx-row>b{text-align:right;overflow-wrap:anywhere}
+.sx-chart{display:flex;align-items:flex-end;gap:8px;height:150px}
+.sx-col{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px;height:100%}
+.sx-col i{display:block;width:100%;max-width:34px;border-radius:9px 9px 4px 4px;background:linear-gradient(180deg,#14C8DC,var(--accent));box-shadow:0 0 14px rgba(84,104,232,.6);transition:height .8s cubic-bezier(.2,.8,.2,1)}
+.sx-col em{font:700 11px 'Sora',sans-serif;font-style:normal}
+.sx-col span{font:600 10.5px 'Sora',sans-serif;color:var(--muted)}
+.sx-ep{display:grid;gap:7px}
+.sx-list{display:grid;gap:14px}
+
 #dx-explore{scroll-margin-top:90px}
 .dx-cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
 .dx-cat{display:flex;align-items:center;gap:14px;padding:16px 18px;border:0;cursor:pointer;color:var(--ink);text-align:left;font:inherit;background:var(--bg)}
@@ -1396,6 +1429,95 @@ function vTools(){
   <section class="sec" id="dx-explore" hidden><div class="dx" id="dx"></div></section>
   </div>`;
 }
+function vExplore(){
+  return `<div id="ah-root">
+  <div hidden aria-hidden="true"><div id="ah-win"></div><code id="ah-code"></code><b id="st-total"></b><small id="st-sub"></small><b id="st-up"></b><b id="st-dev"></b><small id="st-dev2"></small><b id="st-ep"></b></div>
+  <div style="margin:6px 0 14px"><a class="btn alt sm" href="#/tools">&larr; API Docs</a></div>
+  <section class="sec" id="dx-explore"><div class="dx" id="dx"></div></section>
+  </div>`;
+}
+function vStats(){
+  const row = (l, id) => `<div class="sx-row"><span>${l}</span><b id="${id}">&ndash;</b></div>`;
+  const meter = (t, pid, bid, rows) => `<div class="panel sx-card sx-wide"><div class="sx-big"><span class="sx-t">${t}</span><b class="sx-v a" id="${pid}">&ndash;</b></div><div class="sx-bar" id="${bid}"><b></b></div>${rows}</div>`;
+  return `<div class="sx" id="sx-root">
+  <div class="sx-h"><a class="btn alt sm" href="#/tools">&larr; API Docs</a><span class="sx-live"><i id="sx-dot"></i><span id="sx-live">MEMUAT</span></span></div>
+  <h2 class="sx-title">System Statistics</h2>
+  <p class="sx-sub">Dibaca langsung dari server saat ini dan diperbarui tiap 5 detik. Bukan angka contoh.</p>
+  <div class="sx-grid">
+    <div class="panel sx-card"><span class="sx-t">TOTAL REQUESTS</span><b class="sx-v g" id="sx-total">&ndash;</b><small>Semua endpoint</small></div>
+    <div class="panel sx-card"><span class="sx-t">TOTAL RUNTIME</span><b class="sx-v a" id="sx-run">&ndash;</b><small>Sejak statistik pertama dicatat</small></div>
+    <div class="panel sx-card"><span class="sx-t">HARI INI</span><b class="sx-v c" id="sx-today">&ndash;</b><small>Request, zona WIB</small></div>
+    <div class="panel sx-card"><span class="sx-t">BULAN INI</span><b class="sx-v o" id="sx-month">&ndash;</b><small>Request bulan berjalan</small></div>
+    ${meter("MEMORY", "sx-mem-pct", "sx-mem-bar", row("Terpakai","sx-mem-used") + row("Sisa","sx-mem-free") + row("Total","sx-mem-total") + row("Proses ini (RSS)","sx-mem-rss") + row("Heap JS","sx-mem-heap"))}
+    ${meter("DISK", "sx-disk-pct", "sx-disk-bar", row("Terpakai","sx-disk-used") + row("Sisa","sx-disk-free") + row("Total","sx-disk-total") + row("Lokasi","sx-disk-path"))}
+    <div class="panel sx-card sx-wide"><span class="sx-t">CPU</span><b class="sx-v c" id="sx-cores">&ndash;</b>${row("Beban rata-rata (1 / 5 / 15 mnt)","sx-load") + row("Model","sx-cpu") + row("Arsitektur","sx-arch")}</div>
+    <div class="panel sx-card sx-wide"><span class="sx-t">REQUEST 7 HARI TERAKHIR</span><div class="sx-chart" id="sx-chart"></div></div>
+    <div class="panel sx-card sx-wide"><span class="sx-t">REQUEST PER ENDPOINT</span><div class="sx-list" id="sx-api"><small>Memuat...</small></div></div>
+    <div class="panel sx-card sx-wide"><span class="sx-t">PLATFORM</span>${row("Node.js","sx-node") + row("Region","sx-region") + row("Environment","sx-env") + row("Batas memori fungsi","sx-fnmem") + row("Umur instance","sx-inst") + row("Latensi Firebase","sx-fb") + row("Ping ke API","sx-ping") + row("Versi deploy","sx-commit")}</div>
+  </div>
+  <p class="sx-sub" id="sx-note">Server Vercel bersifat serverless: angka memori, disk, dan CPU adalah milik instance yang sedang melayani permintaan ini, jadi bisa berbeda di tiap pemanggilan.</p>
+  </div>`;
+}
+const SX = { tok:0, t1:0, t2:0 };
+function sxBytes(n){
+  if(n==null || isNaN(n)) return "\u2013";
+  const u = ["B","KB","MB","GB","TB"]; let i = 0; n = Number(n);
+  while(n >= 1024 && i < u.length-1){ n /= 1024; i++; }
+  return n.toLocaleString("id-ID", { maximumFractionDigits: i ? 1 : 0 }) + " " + u[i];
+}
+function initStats(){
+  const tok = ++SX.tok; clearInterval(SX.t1); clearInterval(SX.t2);
+  const g = id => document.getElementById(id);
+  const set = (id, v) => { const e = g(id); if(e) e.textContent = v; };
+  const fmt = n => Number(n||0).toLocaleString("id-ID");
+  const bar = (id, p) => { const e = g(id); if(!e) return; e.className = "sx-bar" + (p >= 90 ? " crit" : p >= 75 ? " warn" : ""); e.firstElementChild.style.width = Math.max(2, Math.min(100, p)) + "%"; };
+  const live = (ok, txt) => { const d = g("sx-dot"); if(d) d.className = ok ? "" : "off"; set("sx-live", txt); };
+  let since = null, off = 0;
+  const pull = () => {
+    if(!g("sx-root") || tok !== SX.tok){ clearInterval(SX.t1); clearInterval(SX.t2); return; }
+    if(document.hidden) return;
+    const t0 = performance.now();
+    fetch("/api/list?sys=1", { cache:"no-store" }).then(r => { if(!r.ok) throw 0; return r.json(); }).then(d => {
+      if(tok !== SX.tok || !g("sx-root")) return;
+      const ping = Math.round(performance.now() - t0), st = d.stats, sy = d.sys || {};
+      if(st){
+        set("sx-total", fmt(st.total)); set("sx-today", fmt(st.today)); set("sx-month", fmt(st.month));
+        off = st.now ? new Date(st.now).getTime() - Date.now() : 0;
+        since = st.since ? new Date(st.since).getTime() : null;
+        const l7 = st.last7 || [], mx = Math.max(1, ...l7.map(x => x.n));
+        g("sx-chart").innerHTML = l7.map(x => `<div class="sx-col"><em>${fmt(x.n)}</em><i style="height:${x.n ? Math.round(x.n/mx*86) + 6 : 4}px"></i><span>${x.day.slice(8)}/${x.day.slice(5,7)}</span></div>`).join("");
+        const ent = Object.entries(st.byApi || {}).sort((a,b) => b[1] - a[1]), tot = st.total || 0;
+        g("sx-api").innerHTML = ent.length ? ent.map(([k,v]) => { const p = tot ? Math.round(v/tot*100) : 0; return `<div class="sx-ep"><div class="sx-row"><span>${esc(k)}</span><b>${fmt(v)} <small>(${p}%)</small></b></div><div class="sx-bar"><b style="width:${Math.max(p,2)}%"></b></div></div>`; }).join("") : `<small>Belum ada request tercatat.</small>`;
+        set("sx-fb", d.fbMs != null ? d.fbMs + " ms" : "\u2013");
+      }else{
+        ["sx-total","sx-today","sx-month","sx-fb"].forEach(i => set(i, "\u2013"));
+        since = null;
+        g("sx-api").innerHTML = `<small>Firebase belum terhubung, cek variabel di Vercel.</small>`;
+      }
+      const m = sy.mem;
+      if(m && m.total){ const used = m.total - m.free, p = Math.round(used/m.total*100);
+        set("sx-mem-pct", p + "%"); bar("sx-mem-bar", p);
+        set("sx-mem-used", sxBytes(used)); set("sx-mem-free", sxBytes(m.free)); set("sx-mem-total", sxBytes(m.total));
+        set("sx-mem-rss", sxBytes(m.rss)); set("sx-mem-heap", sxBytes(m.heapUsed) + " / " + sxBytes(m.heapTotal)); }
+      const dk = sy.disk;
+      if(dk && dk.total){ const used = dk.total - dk.free, p = Math.round(used/dk.total*100);
+        set("sx-disk-pct", p + "%"); bar("sx-disk-bar", p);
+        set("sx-disk-used", sxBytes(used)); set("sx-disk-free", sxBytes(dk.free)); set("sx-disk-total", sxBytes(dk.total)); set("sx-disk-path", dk.path); }
+      else { set("sx-disk-pct", "\u2013"); }
+      const c = sy.cpu || {};
+      set("sx-cores", c.cores ? c.cores + " core" : "\u2013");
+      set("sx-load", (c.load || []).map(x => Number(x).toFixed(2)).join(" \u00b7 ") || "\u2013");
+      set("sx-cpu", c.model || "\u2013"); set("sx-arch", [sy.platform, sy.arch].filter(Boolean).join(" / ") || "\u2013");
+      set("sx-node", sy.node || "\u2013"); set("sx-region", sy.region || "\u2013"); set("sx-env", sy.env || "\u2013");
+      set("sx-fnmem", sy.fnMemMb ? sy.fnMemMb + " MB" : "\u2013");
+      set("sx-inst", sy.uptimeS != null ? dxUptime(sy.uptimeS * 1000) : "\u2013");
+      set("sx-ping", ping + " ms"); set("sx-commit", sy.commit || "\u2013");
+      live(true, "LIVE");
+    }).catch(() => { if(tok === SX.tok) live(false, "OFFLINE"); });
+  };
+  const tick = () => { if(!g("sx-root") || tok !== SX.tok){ clearInterval(SX.t1); clearInterval(SX.t2); return; } set("sx-run", since ? dxUptime(Date.now() + off - since) : "\u2013"); };
+  pull(); SX.t1 = setInterval(pull, 5000); SX.t2 = setInterval(tick, 1000);
+}
 function dxIcon(m){ return ico(m.icon && LI[m.icon] ? m.icon : (m.input==="file" ? "image" : "bolt"), 22); }
 
 function dxCard(m){
@@ -1598,8 +1720,8 @@ function initTools(){
 
   const hero = $("#ah-root");
   hero.addEventListener("click", e => {
-    if(e.target.closest("[data-explore]")){ const x = $("#dx-explore"); x.hidden = false; x.scrollIntoView({ behavior:"smooth", block:"start" }); return; }
-    if(e.target.closest("[data-gostats]")){ $("#dx-stats").scrollIntoView({ behavior:"smooth", block:"start" }); return; }
+    if(e.target.closest("[data-explore]")){ location.hash = "#/explore"; return; }
+    if(e.target.closest("[data-gostats]")){ location.hash = "#/stats"; return; }
     const wl = e.target.closest("[data-wl]");
     if(wl && DX.hero){ DX.wl = wl.dataset.wl; $("#ah-code").textContent = DX.hero[DX.wl]; $("#ah-kind").textContent = DX.wl==="js" ? "FETCH" : "CURL";
       hero.querySelectorAll("[data-wl]").forEach(b => b.setAttribute("aria-pressed", String(b===wl))); return; }
@@ -1649,7 +1771,7 @@ function initTools(){
 
 /* =====================  ROUTER  ===================== */
 const NAV = [["beranda","Beranda","house"],["produk","Produk","chest"],["rating","Rating","star"],["cs","CS","chat"],["tools","API Docs","bolt"],["penjelasan","Info","book"]];
-const TITLES = { beranda:"Beranda", produk:"Produk", rating:"Rating", cs:"CS", penjelasan:"Penjelasan", tools:"API Docs" };
+const TITLES = { beranda:"Beranda", produk:"Produk", rating:"Rating", cs:"CS", penjelasan:"Penjelasan", tools:"API Docs", explore:"Explore API", stats:"System Statistics" };
 function parse(){
   const h = location.hash.replace(/^#\/?/,"");
   const parts = h.split("/"); let page = parts.shift() || "beranda";
@@ -1665,13 +1787,14 @@ function render(scroll=true, instant=false){
   const main = $("#main");
   main.innerHTML = page==="beranda" ? vHome()
     : page==="produk" ? (arg ? vDetail(arg) : vProducts())
-    : page==="rating" ? vRating() : page==="cs" ? vCS() : page==="tools" ? vTools() : vExplain();
+    : page==="rating" ? vRating() : page==="cs" ? vCS() : page==="tools" ? vTools() : page==="explore" ? vExplore() : page==="stats" ? vStats() : vExplain();
   document.querySelectorAll(".slot").forEach(a=>{
-    if(a.dataset.p===page) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");
+    if(a.dataset.p===(page==="explore"||page==="stats"?"tools":page)) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");
   });
   document.title = C.NAME;
   if(page==="produk" && arg) updateOrder();
-  if(page==="tools") initTools();
+  if(page==="tools"||page==="explore") initTools();
+  if(page==="stats") initStats();
   tagReveal(main);
   watchReveal(main);
   if(scroll){ window.scrollTo({top:0,behavior:instant?"instant":"smooth"}); }
