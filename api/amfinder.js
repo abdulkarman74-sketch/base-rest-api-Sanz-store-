@@ -1,10 +1,11 @@
+const { track } = require("./_track");
 // GET /api/amfinder?q=LINK_TIKTOK_ATAU_YOUTUBE   -> preset Alight Motion dari video
 // GET /api/amfinder?q=JUDUL_LAGU                 -> daftar kandidat video (lalu panggil lagi dengan linknya)
 // Logikanya dari plugin bot "amfinder" (helpers/Events/amfinder.js), ditulis ulang untuk Vercel:
 // CommonJS + fetch bawaan Node 18+, tanpa package.json.
 //   - link  -> https://api.wilz.web.id/tools/amfinder?url=<link>
 //   - judul -> https://amfinder.web.id/api/search?mode=pick (SSE, event "candidates")
-const { track } = require("./_track");
+
 const CREATOR = "Sanz Snixy";
 const HOST = "https://amfinder.web.id";
 const WILZ_API = "https://api.wilz.web.id/tools/amfinder";
@@ -180,6 +181,7 @@ async function handler(req, res) {
 }
 
 handler.meta = {
+  category: "search",
   title: "preset alight motion search",
   desc: "Cari preset Alight Motion dari link TikTok / YouTube atau kata kunci lagu.",
   method: "GET",
@@ -192,3 +194,4 @@ handler.meta = {
 };
 
 module.exports = track("amfinder", handler);
+  
