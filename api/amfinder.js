@@ -4,7 +4,7 @@
 // CommonJS + fetch bawaan Node 18+, tanpa package.json.
 //   - link  -> https://api.wilz.web.id/tools/amfinder?url=<link>
 //   - judul -> https://amfinder.web.id/api/search?mode=pick (SSE, event "candidates")
-
+const { track } = require("./_track");
 const CREATOR = "Sanz Snixy";
 const HOST = "https://amfinder.web.id";
 const WILZ_API = "https://api.wilz.web.id/tools/amfinder";
