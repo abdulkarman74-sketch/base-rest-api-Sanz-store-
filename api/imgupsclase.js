@@ -107,6 +107,7 @@ async function handler(req, res) {
 
 // Info untuk halaman Docs API (dibaca otomatis oleh /api/list)
 handler.meta = {
+  category : "tools"
   title: "Upscale Foto",
   desc: "peningkat kualitas foto",
   method: "POST",
