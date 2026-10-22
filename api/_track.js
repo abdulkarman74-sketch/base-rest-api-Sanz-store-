@@ -61,7 +61,7 @@ async function hit(name) {
 
 async function getStats() {
   const now = new Date().toISOString();
-  if (!ready()) return { today: 0, month: 0, total: 0, now, since: null };
+  if (!ready()) return { today: 0, month: 0, total: 0, now, since: null, byApi: {}, last7: [] };
   const today = wibDay(), month = today.slice(0, 7);
   const [rows, since0] = await Promise.all([
     fb("GET", "api_hits", undefined, 5000),
@@ -73,13 +73,26 @@ async function getStats() {
     try { await fb("PUT", "meta/started_at", since, 3000); } catch (e) {}
   }
   let t = 0, m = 0, a = 0;
+  const byApi = {}, perDay = {};
   for (const [day, apis] of Object.entries(rows || {})) {
-    const n = Object.values(apis || {}).reduce((s, v) => s + (Number(v) || 0), 0);
+    let n = 0;
+    for (const [k, v] of Object.entries(apis || {})) {
+      const c = Number(v) || 0;
+      n += c;
+      byApi[k] = (byApi[k] || 0) + c;
+    }
+    perDay[day] = n;
     a += n;
     if (day.startsWith(month)) m += n;
     if (day === today) t += n;
   }
-  return { today: t, month: m, total: a, now, since };
+  // 7 hari terakhir (WIB), hari tanpa data = 0
+  const last7 = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = wibDay(new Date(Date.now() - i * 86400000));
+    last7.push({ day: d, n: perDay[d] || 0 });
+  }
+  return { today: t, month: m, total: a, now, since, byApi, last7 };
 }
 
 // bungkus handler: hitung dulu, lalu jalankan handler asli. meta ikut disalin untuk list.js
@@ -90,4 +103,5 @@ function track(name, handler) {
 }
 
 module.exports = { track, getStats };
-    
+
+     
