@@ -1,3 +1,4 @@
+const { track } = require("./_track");
 // GET /api/pinsearch?q=anime
 // Mengirim SATU gambar Pinterest langsung sebagai body respons (bukan URL/JSON).
 
@@ -195,6 +196,7 @@ async function handler(req, res) {
 }
 
 handler.meta = {
+  category: "search",
   title: "Pinterest Image Search",
   desc: "Cari gambar Pinterest dan kirim data foto langsung sebagai respons, bukan URL.",
   method: "GET",
@@ -206,4 +208,5 @@ handler.meta = {
   ]
 };
 
-module.exports = handler;
+module.exports = track("pinterest", handler);
+    
