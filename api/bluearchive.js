@@ -26,11 +26,15 @@ async function handler(req, res) {
   }
 
   try {
-    const r = await fetch(UPSTREAM, {
-      headers: { accept: "image/*,application/json" },
+        const r = await fetch(UPSTREAM, {
+      headers: {
+        accept: "image/*,application/json",
+        "user-agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36",
+        "accept-language": "id-ID,id;q=0.9,en;q=0.8",
+        referer: "https://v2.api-varhad.my.id/",
+      },
       signal: AbortSignal.timeout(25000),
     });
-    if (!r.ok) throw new Error("Server gambar membalas HTTP " + r.status);
 
     const buffer = Buffer.from(await r.arrayBuffer());
     if (!buffer.length) throw new Error("Gambar yang diterima kosong");
