@@ -1,9 +1,9 @@
+const { track } = require("./_track");
 // GET /api/ppcouple
 // PP couple acak (maks 10 gambar per panggilan). Diambil dari api.ikyyxd.my.id, logikanya dari plugin bot "ppcouple".
 // Key upstream dipakai di server, user API ini tidak perlu key.
 // Disarankan simpan key di Vercel -> Settings -> Environment Variables dengan nama IKYY_APIKEY
 // (kalau tidak diisi, dipakai key bawaan "kyzz").
-const { track } = require("./_track");
 const UPSTREAM = "https://api.ikyyxd.my.id/random/ppcouple";
 
 // kumpulkan semua link gambar (jpg/jpeg/png/webp) dari bentuk respons apa pun
@@ -44,6 +44,7 @@ async function handler(req, res) {
 
 // Info untuk halaman Docs API (dibaca otomatis oleh /api/list)
 handler.meta = {
+  category: "search",
   title: "PP Couple",
   desc: "Foto profil couple acak. Tiap panggilan mengembalikan hingga 10 link gambar.",
   method: "GET",
