@@ -1,3 +1,4 @@
+const { track } = require("./_track");
 const SERVERS = [
   "api1g", "api2g", "api3g", "api8g", "api9g", "api10g", "api11g",
   "api12g", "api13g", "api14g", "api15g", "api16g", "api17g", "api18g",
@@ -118,5 +119,5 @@ handler.meta = {
   ]
 };
 
-module.exports = handler;
+module.exports = track("imgupsclase", handler);
                 
