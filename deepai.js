@@ -52,7 +52,7 @@ async function handler(req, res) {
 // Info untuk halaman Docs API (dibaca otomatis oleh /api/list)
 handler.meta = {
   category: "ai",
-  title: "Claude",
+  title: "Deep ai",
   desc: "",
   method: "GET",
   input: "none",
