@@ -53,4 +53,4 @@ handler.meta = {
   params: []
 };
 
-module.exports = handler;
+module.exports = track("ppcouple", handler);
