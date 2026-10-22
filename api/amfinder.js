@@ -191,4 +191,4 @@ handler.meta = {
   ]
 };
 
-module.exports = handler;
+module.exports = track("amfinder", handler);
