@@ -1,8 +1,14 @@
 const fs = require("fs");
 const path = require("path");
+const { getStats } = require("./_track");
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
+  if (/[?&]stats=/.test(req.url || "")) {
+    res.setHeader("Cache-Control", "no-store");
+    try { return res.status(200).json(await getStats()); }
+    catch (e) { return res.status(500).json({ message: "Statistik belum bisa dimuat" }); }
+  }
   res.setHeader("Cache-Control", "s-maxage=60, stale-while-revalidate=300");
 
   const out = [];
