@@ -198,7 +198,7 @@ async function handler(req, res) {
 handler.meta = {
   category: "search",
   title: "Pinterest Image Search",
-  desc: "Cari gambar Pinterest dan kirim data foto langsung sebagai respons, bukan URL.",
+  desc: "Cari gambar dari pinterest ",
   method: "GET",
   input: "none",
   output: "image",
