@@ -16,7 +16,40 @@
     "api/amfinder.js": {
       "maxDuration": 60
     },
+    "api/ytdl.js": {
+      "maxDuration": 60
+    },
+    "api/capcut.js": {
+      "maxDuration": 60
+    },
+    "api/gpt4o.js": {
+      "maxDuration": 60
+    },
+    "api/claude.js": {
+      "maxDuration": 60
+    },
     "api/copilot.js": {
+      "maxDuration": 60
+    },
+    "api/bluearchive.js": {
+      "maxDuration": 60
+    },
+    "api/quotesanime.js": {
+      "maxDuration": 60
+    },
+    "api/mediafire.js": {
+      "maxDuration": 60
+    },
+    "api/tiktoksearch.js": {
+      "maxDuration": 60
+    },
+    "api/spotifyplay.js": {
+      "maxDuration": 60
+    },
+    "api/tts.js": {
+      "maxDuration": 60
+    },
+    "api/robloxstalk.js": {
       "maxDuration": 60
     }
   }
